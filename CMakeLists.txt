@@ -51,7 +51,10 @@ set(SDL2_SEARCH_PATHS lib/armhf)
 find_library(SDL2_LIB NAMES SDL2 PATHS ${SDL2_SEARCH_PATHS})
 target_link_libraries(${EXEC} ${SDL2_LIB})
 
-# Install libs
+# Include headers
+add_subdirectory(include)
+
+# Include dynamic libraries
 add_subdirectory(lib)
 
 # Install run.sh
