@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SDL2 demo
+Comment=An SDL2 demo application
+Exec=run.sh
+Icon=ubuntu-touch-sdl-template.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
