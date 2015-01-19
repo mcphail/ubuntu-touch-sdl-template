@@ -1,0 +1,15 @@
+{
+    "architecture": "@CLICK_ARCH@",
+    "description": "description of ubuntu-touch-sdl-template",
+    "framework": "ubuntu-sdk-14.10-dev2",
+    "hooks": {
+        "sdltemplate": {
+            "apparmor": "sdltemplate.apparmor",
+            "desktop": "sdltemplate.desktop"
+        }
+    },
+    "maintainer": "Sturm Flut <sturmflut@lieberbiber.de>",
+    "name": "sdltemplate.sturmflut.ubuntu-touch-sdl-template",
+    "title": "ubuntu-touch-sdl-template",
+    "version": "0.1"
+}
