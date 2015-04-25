@@ -43,7 +43,8 @@ set(
 )
 
 # Add and install binary
-add_executable(${EXEC} ${EXEC_SOURCES}) 
+add_executable(${EXEC} ${EXEC_SOURCES})
+
 install_targets(${CMAKE_INSTALL_PREFIX} ${EXEC})
 
 # Add the path to our local libraries
@@ -53,42 +54,43 @@ set(LIBRARY_SEARCH_PATHS "lib/${CLICK_ARCH}/")
 find_library(SDL2_LIB NAMES SDL2 PATHS ${LIBRARY_SEARCH_PATHS})
 
 # Find libasound (system-wide or local installation)
-find_library(ASOUND_LIB NAMES asound PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(ASOUND_LIB NAMES asound PATHS ${LIBRARY_SEARCH_PATHS})
 
 # Find pulseaudio libraries (system-wide or local installation)
-find_library(PULSE_LIB NAMES pulse PATHS ${LIBRARY_SEARCH_PATHS})
-find_library(PULSE_LIB_SIMPLE NAMES pulse-simple PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(PULSE_LIB NAMES pulse PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(PULSE_LIB_SIMPLE NAMES pulse-simple PATHS ${LIBRARY_SEARCH_PATHS})
 
 # Find X11 libraries (system-wide or local installation)
-find_library(XCURSOR_LIB NAMES Xcursor PATHS ${LIBRARY_SEARCH_PATHS})
-find_library(XINERAMA_LIB NAMES Xinerama PATHS ${LIBRARY_SEARCH_PATHS})
-find_library(XKBCOMMON_LIB NAMES xkbcommon PATHS ${LIBRARY_SEARCH_PATHS})
-find_library(XI_LIB NAMES Xi PATHS ${LIBRARY_SEARCH_PATHS})
-find_library(XRANDR_LIB NAMES Xrandr PATHS ${LIBRARY_SEARCH_PATHS})
-find_library(XSS_LIB NAMES Xss PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(XCURSOR_LIB NAMES Xcursor PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(XINERAMA_LIB NAMES Xinerama PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(XKBCOMMON_LIB NAMES xkbcommon PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(XI_LIB NAMES Xi PATHS ${LIBRARY_SEARCH_PATHS})
+# find_library(XRANDR_LIB NAMES Xrandr PATHS ${LIBRARY_SEARCH_PATHS})
+#find_library(XSS_LIB NAMES Xss PATHS ${LIBRARY_SEARCH_PATHS})
 
 # List of libraries
 set(
     EXEC_LIBS
-    ${SDL2_LIB}
-    ${ASOUND_LIB}
-    ${PULSE_LIB}
-    ${PULSE_LIB_SIMPLE}
-    X11
-    Xext
-    Xxf86vm
-    ${XCURSOR_LIB}
-    ${XINERAMA_LIB}
-    ${XKBCOMMON_LIB}
-    ${XI_LIB}
-    ${XRANDR_LIB}
     ${XSS_LIB}
-    wayland-client
-    wayland-cursor
-    wayland-egl
-    dl
-    m
-    pthread)
+    ${SDL2_LIB}
+#    ${ASOUND_LIB}
+#    ${PULSE_LIB}
+#    ${PULSE_LIB_SIMPLE}
+#    X11
+#    Xext
+#    Xxf86vm
+#    ${XCURSOR_LIB}
+#    ${XINERAMA_LIB}
+#    ${XKBCOMMON_LIB}
+#    ${XI_LIB}
+#    ${XRANDR_LIB}
+#    wayland-client
+#    wayland-cursor
+#    wayland-egl
+#    dl
+#    m
+#    pthread)
+)
 
 # Link against libSDL2
 target_link_libraries(${EXEC} ${EXEC_LIBS})
@@ -99,16 +101,16 @@ add_subdirectory(include)
 # Include dynamic libraries
 add_subdirectory(lib)
 
-# Install run.sh
-install_programs(${CMAKE_INSTALL_PREFIX} run.sh)
+# Include other binaries
+add_subdirectory(bin)
 
 add_custom_target("check" ${EXEC}
                     DEPENDS ${EXEC}
                     WORKING_DIRECTORY .)
 
-add_custom_target("run" run.sh
+add_custom_target("run" bin/run.sh
                     DEPENDS ${EXEC}
                     WORKING_DIRECTORY .)
 
 # No op custom target for all not compiled files, so they show up in the QtCreator project tree
-add_custom_target("ubuntu-touch-sdl-template_ClickFiles" ALL SOURCES ${DESKTOP_FILE_NAME} "ubuntu-touch-sdl-template.apparmor" "manifest.json.in" "run.sh")
+add_custom_target("ubuntu-touch-sdl-template_ClickFiles" ALL SOURCES ${DESKTOP_FILE_NAME} "ubuntu-touch-sdl-template.apparmor" "manifest.json.in")

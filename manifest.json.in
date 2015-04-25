@@ -8,8 +8,8 @@
             "desktop": "ubuntu-touch-sdl-template.desktop"
         }
     },
-    "maintainer": "Sturm Flut <sturmflut@lieberbiber.de>",
+    "maintainer": "Simon Raffeiner <sturmflut@lieberbiber.de>",
     "name": "ubuntu-touch-sdl-template.sturmflut",
     "title": "ubuntu-touch-sdl-template",
-    "version": "0.2"
+    "version": "0.4"
 }

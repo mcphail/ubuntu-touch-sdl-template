@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 
 #include "../include/SDL2/SDL.h"
 
@@ -12,24 +14,61 @@ int main(int argc, char* argv[])
     int quit = 0;
     int i;
 
+
+    printf("Starting...\n");
+    fflush(stdout);
+
+
+    sleep(1);
+
+
     // Initialize SDL
     printf("SDL_Init()\n");
+    fflush(stdout);
     if(SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         printf("Initialization failed: %s\n", SDL_GetError());
+        fflush(stdout);
 
         return EXIT_FAILURE;
     }
 
+
+    sleep(1);
+
+
+    SDL_DisplayMode mode;
+    printf("SDL_GetCurrentDisplayMode()\n");
+    fflush(stdout);
+    if(SDL_GetCurrentDisplayMode(0, &mode) != 0)
+    {
+        printf("Could not get current mode: %s\n", SDL_GetError());
+        fflush(stdout);
+
+        return EXIT_FAILURE;
+    }
+
+    int screenWidth = mode.w;
+    int screenHeight = mode.h;
+
     // Create an 800 x 600 window and an attached renderer
-    printf("SDL_CreateWindowAndRenderer()\n");
-    SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer);
+    printf("SDL_CreateWindowAndRenderer(%i, %i)\n",
+           screenWidth,
+           screenHeight);
+    fflush(stdout);
+    SDL_CreateWindowAndRenderer(screenWidth, screenHeight, 0, &window, &renderer);
 
     if (window == NULL) {
         printf("Window creation failed: %s\n", SDL_GetError());
+        fflush(stdout);
 
         return EXIT_FAILURE;
     }
+
+
+    printf("Initialized, drawing...\n");
+    fflush(stdout);
+
 
     // Initialize random number generator
     srand(42);
@@ -50,10 +89,10 @@ int main(int argc, char* argv[])
         }
 
         // Draw random pixels
-        for(i = 0; i < 1000; i++)
+        for(i = 0; i < 5000; i++)
         {
             SDL_SetRenderDrawColor(renderer, rand() % 256, rand() % 256, rand() % 256, rand() % 256);
-            SDL_RenderDrawPoint(renderer, rand() % 800, rand() % 600);
+            SDL_RenderDrawPoint(renderer, rand() % screenWidth, rand() % screenHeight);
         }
 
         SDL_RenderPresent(renderer);
