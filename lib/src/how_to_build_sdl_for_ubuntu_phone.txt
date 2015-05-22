@@ -1,0 +1,42 @@
+Cross-compiling SDL for the Ubuntu Phone is possible, and fairly simple.
+
+1) Install the Ubuntu SDK
+
+2) Create a development chroot:
+	$ sudo click chroot -a armhf -f ubuntu-sdk-14.10 create
+
+3) Obtain the SDL sources from mercurial or a tarball. The sources for the
+   supplied SDL build are included in this repo and were obtained from
+   mercurial on 2015-05-22.
+
+4) Log in to your chroot as root. You will have to be root to install
+   packages, as you cannot use "sudo" in the chroot by default. The installed
+   packages will be lost when you log out of the chroot, and the chroot will
+   return to a pristine state. If you wish to keep the changes, log in with
+   "maint" instead of "run":
+	$ sudo click chroot -a armhf -f ubuntu-sdk-14.10 run
+
+5) Install the minimal dependencies for SDL:
+	# apt-get install libxkbcommon-dev:armhf libdbus-1-dev:armhf
+
+6) Drop priveleges - don't build as root!
+	# su your_username
+
+7) Create a build directory and change to it:
+	$ mkdir SDL2-2.0.4/build && cd SDL2-2.0.4/build
+
+8) Configure the build, disabling broken or unneeded components. Building with
+   debugging symbols and no optimisation will help us all:
+	$ PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig/ \
+	  ../configure --host=arm-linux-gnueabihf CFLAGS="-g -O0" \
+	  --disable-mir-shared --disable-video-opengl \
+	  --disable-video-wayland --disable-video-x11 --prefix=/tmp/mysdlbuild
+
+9) Build:
+	$ make && make install
+
+The libraries will be installed in /tmp/mysdlbuild/lib/ and can be copied into
+the template lib/armhf directory.
+
+TODO: this builds a very minimal SDL. Please experiment with additional audio
+drivers etc and feed back whether they work. Thanks.
